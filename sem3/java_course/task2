@@ -1,0 +1,226 @@
+public class Main {
+
+    public static String duplicateChars(String str1, String str2) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < str1.length(); i++) {
+            char c = str1.charAt(i);
+            if (str2.indexOf(c) == -1 && result.indexOf(String.valueOf(c)) == -1) {
+                result.append(c);
+            }
+        }
+        return result.toString();
+    }
+
+    public static int dividedByThree(int[] arr) {
+        int count = 0;
+        for (int num : arr) {
+            if (num % 2 != 0 && num % 3 == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static String getInitials(String fullName) {
+        StringBuilder initials = new StringBuilder();
+        String[] parts = splitString(fullName);
+        for (int i = 0; i < parts.length - 1; i++) {
+            initials.append(Character.toUpperCase(parts[i].charAt(0))).append(".");
+        }
+        initials.append(parts[parts.length - 1].substring(0, 1).toUpperCase())
+                .append(parts[parts.length - 1].substring(1));
+        return initials.toString();
+    }
+
+    private static String[] splitString(String str) {
+        String[] parts = new String[str.length()];
+        int count = 0;
+        StringBuilder word = new StringBuilder();
+        
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == ' ') {
+                if (word.length() > 0) {
+                    parts[count++] = word.toString();
+                    word.setLength(0);
+                }
+            } else {
+                word.append(c);
+            }
+        }
+        
+        if (word.length() > 0) {
+            parts[count++] = word.toString();
+        }
+        
+        String[] result = new String[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = parts[i];
+        }
+        
+        return result;
+    }
+
+    public static double[] normalizator(double[] arr) {
+        double min = arr[0];
+        double max = arr[0];
+        
+        for (double num : arr) {
+            if (num < min) min = num;
+            if (num > max) max = num;
+        }
+        
+        double[] normalized = new double[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            normalized[i] = (arr[i] - min) / (max - min);
+        }
+        
+        return normalized;
+    }
+
+    public static double[] compressedNums(double[] arr) {
+        double[] temp = new double[arr.length];
+        int index = 0;
+
+        for (double num : arr) {
+            if (num != 0 && !contains(temp, index, num)) {
+                temp[index++] = num;
+            }
+        }
+
+        double[] compressed = new double[index];
+        for (int i = 0; i < index; i++) {
+            compressed[i] = temp[i];
+        }
+
+        for (int i = 0; i < compressed.length - 1; i++) {
+            for (int j = 0; j < compressed.length - 1 - i; j++) {
+                if (compressed[j] > compressed[j + 1]) {
+                    double tempVal = compressed[j];
+                    compressed[j] = compressed[j + 1];
+                    compressed[j + 1] = tempVal;
+                }
+            }
+        }
+
+        return compressed;
+    }
+
+    private static boolean contains(double[] arr, int length, double value) {
+        for (int i = 0; i < length; i++) {
+            if (arr[i] == value) return true;
+        }
+        return false;
+    }
+
+    public static String camelToSnake(String str) {
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (Character.isUpperCase(c) && i > 0) {
+                result.append("_");
+            }
+            result.append(Character.toLowerCase(c));
+        }
+        
+        return result.toString();
+    }
+
+    public static int secondBiggest(int[] arr) {
+        int first = Integer.MIN_VALUE;
+        int second = Integer.MIN_VALUE;
+
+        for (int num : arr) {
+            if (num > first) {                second = first;
+                first = num;
+            } else if (num > second && num < first) {
+                second = num;
+            }
+        }
+        
+        return second;
+    }
+
+    public static String localReverse(String str, char marker) {
+        StringBuilder result = new StringBuilder();
+        int lastIndex = 0;
+
+        while (true) {
+            int startIndex = str.indexOf(marker, lastIndex);
+            if (startIndex == -1) break;
+            result.append(str.substring(lastIndex, startIndex));
+            int endIndex = str.indexOf(marker, startIndex + 1);
+            if (endIndex == -1) break;
+
+            String toReverse = str.substring(startIndex + 1, endIndex);
+            result.append(reverse(toReverse)).append(marker);
+            lastIndex = endIndex + 1;
+        }
+        
+        result.append(str.substring(lastIndex));
+        return result.toString();
+    }
+
+    private static String reverse(String str) {
+        StringBuilder reversed = new StringBuilder();
+        
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversed.append(str.charAt(i));
+        }
+        
+        return reversed.toString();
+    }
+
+    public static int equal(int a, int b, int c) {
+        int count = 0;
+        if (a == b) count++;
+        if (b == c) count++;
+        if (a == c) count++;
+        return count;
+    }
+
+    public static boolean isAnagram(String str1, String str2) {
+        int[] charCount = new int[26];
+
+        for (char c : str1.toLowerCase().toCharArray()) {
+            if (c >= 'a' && c <= 'z') charCount[c - 'a']++;
+        }
+
+        for (char c : str2.toLowerCase().toCharArray()) {
+            if (c >= 'a' && c <= 'z') charCount[c - 'a']--;
+        }
+
+        for (int count : charCount) {
+            if (count != 0) return false;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(duplicateChars("Barack", "Obama")); 
+        System.out.println(dividedByThree(new int[]{3, 12, 7, 81, 52})); 
+        System.out.println(getInitials("simonov sergei evgenievich")); 
+        
+        double[] normalizedArray = normalizator(new double[]{3.5, 7.0, 1.5, 9.0, 5.5});
+        for (double d : normalizedArray) System.out.print(d + " "); 
+        
+        System.out.println();
+        
+        double[] compressedArray = compressedNums(new double[]{1.6, 0, 212.3, 34.8, 0, 27.5});
+        for (double d : compressedArray) System.out.print(d + " "); 
+        
+        System.out.println();
+        
+        System.out.println(camelToSnake("helloWorld")); 
+        
+        System.out.println(secondBiggest(new int[]{3, 5, 8, 1, 2, 4})); 
+        
+        System.out.println(localReverse("baobab", 'b')); 
+        
+        System.out.println(equal(8, 1, 8)); 
+        
+        System.out.println(isAnagram("LISTEN", "silent")); 
+    }
+}
