@@ -1,0 +1,76 @@
+public class Main {
+
+    public static double convert(int gallons) {
+        return gallons * 3.78541;
+    }
+
+    public static int fitCalc(int minutes, int intensity) {
+        return minutes * intensity;
+    }
+
+    public static int containers(int boxes, int bags, int barrels) {
+        return boxes * 20 + bags * 50 + barrels * 100;
+    }
+
+    public static String triangleType(int x, int y, int z) {
+        if (x + y <= z || x + z <= y || y + z <= x) {
+            return "not a triangle";
+        } else if (x == y && y == z) {
+            return "equilateral";
+        } else if (x == y || y == z || x == z) {
+            return "isosceles";
+        } else {
+            return "different-sided";
+        }
+    }
+
+    public static int ternaryEvaluation(int a, int b) {
+        return a > b ? a : b;
+    }
+
+    public static int howManyItems(double fabricLength, double width, double height) {
+        double totalFabricArea = fabricLength * 2;
+        double itemArea = width * height;
+        return (int) (totalFabricArea / itemArea);
+    }
+
+    public static long factorial(int n) {
+        if (n == 0) return 1;
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    public static int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    public static int ticketSaler(int ticketsSold, int ticketPrice) {
+        final int FIXED_COMMISSION = 60;
+        return ticketsSold * (ticketPrice - FIXED_COMMISSION);
+    }
+
+    public static int missingDesks(int students, int desks) {
+        return Math.max(0, (students + 1) / 2 - desks);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(convert(5));
+        System.out.println(fitCalc(15, 1)); 
+        System.out.println(containers(3, 4, 2));
+        System.out.println(triangleType(5, 5, 5));
+        System.out.println(ternaryEvaluation(8, 4));
+        System.out.println(howManyItems(22, 1.4, 2));
+        System.out.println(factorial(5));
+        System.out.println(gcd(48, 18));
+        System.out.println(ticketSaler(70, 1500));
+        System.out.println(missingDesks(10, 4));
+    }
+}
