@@ -1,0 +1,33 @@
+services:
+  api:
+    build: ./backend
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  postgres_data:
